@@ -1,0 +1,6 @@
+- name: Install Java and MySQL
+  hosts: all
+  roles:
+    - role: java
+    - role: mysql
+  ignore_errors: yes

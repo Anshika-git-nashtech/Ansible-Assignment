@@ -1,0 +1,21 @@
+
+- name: Install Java
+  apt:
+    name: "{{ java_package }}"
+    state: present
+  become: yes
+
+- name: Verify Java Installation
+  command: java -version
+  register: java_version
+  ignore_errors: yes
+
+- name: Ensure Java version is correct
+  debug:
+    msg: "Installed Java version: {{ java_version.stdout }}"
+  when: java_version.rc == 0
+
+- name: Fail if Java installation is unsuccessful
+  fail:
+    msg: "Java installation failed."
+  when: java_version.rc != 0

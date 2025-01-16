@@ -1,0 +1,5 @@
+- name: Restart Java service
+  service:
+    name: "{{ java_service }}"
+    state: restarted
+  become: yes

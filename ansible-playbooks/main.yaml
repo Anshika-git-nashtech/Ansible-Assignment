@@ -1,0 +1,10 @@
+- name: Install Java and MySQL
+  hosts: all
+  gather_facts: yes
+  tasks:
+    - include: dependencies.yml
+
+- name: Ensure MySQL is installed only if Java is installed successfully
+  include_tasks: dependencies.yml
+  when: java_version.rc == 0
+  ignore_errors: yes
