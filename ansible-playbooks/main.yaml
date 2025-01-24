@@ -1,10 +1,17 @@
+---
 - name: Install Java and MySQL
   hosts: all
   gather_facts: yes
+  become: yes
   tasks:
-    - include: dependencies.yml
+    
+    - name: Install Java
+      ansible.builtin.apt:
+        name: openjdk-8-jdk
+        state: present
+      register: java_install_result
 
-- name: Ensure MySQL is installed only if Java is installed successfully
-  include_tasks: dependencies.yml
-  when: java_version.rc == 0
-  ignore_errors: yes
+    - name: Include MySQL installation tasks if Java is installed successfully
+      include_tasks: dependencies.yaml  
+      when: java_install_result.changed == true
+      ignore_errors: yes 
